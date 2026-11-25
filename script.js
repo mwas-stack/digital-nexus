@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const formStatus = document.getElementById("form-status");
 
   if (form && formStatus) {
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       if (!form.checkValidity()) {
@@ -89,15 +89,34 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      formStatus.textContent =
-        "[Placeholder: Message captured in this demo. Connect the form to your email or form service to receive enquiries.]";
-      formStatus.classList.add("is-success");
-      form.reset();
+      formStatus.textContent = "Sending...";
+      formStatus.classList.remove("is-success");
+
+      try {
+        const response = await fetch("https://formspree.io/f/xgakdzav", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+
+        if (!response.ok) throw new Error("Form submission failed");
+
+        formStatus.textContent = "Thanks, I'll reply within 48 hours";
+        formStatus.classList.add("is-success");
+        form.reset();
+      } catch {
+        formStatus.textContent =
+          "Sorry, your message couldn't be sent. Please email me at ruchuraphael8@gmail.com and I'll reply as soon as I can.";
+        formStatus.classList.remove("is-success");
+      }
     });
 
     form.addEventListener("input", () => {
       if (!formStatus.classList.contains("is-success")) return;
-      formStatus.textContent = "[Placeholder: Connect this form to your email or form service.]";
+      formStatus.textContent = "";
       formStatus.classList.remove("is-success");
     });
   }
