@@ -121,6 +121,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const sampleModal = document.getElementById("sample-modal");
+  const modalCategory = document.getElementById("sample-modal-category");
+  const modalTitle = document.getElementById("sample-modal-title");
+  const modalBody = document.getElementById("sample-modal-body");
+  const modalClose = sampleModal?.querySelector(".sample-modal-close");
+  let lastFocused = null;
+
+  const closeSample = () => {
+    if (!sampleModal || sampleModal.hidden) return;
+    sampleModal.hidden = true;
+    document.body.classList.remove("modal-open");
+    if (lastFocused) lastFocused.focus();
+  };
+
+  document.querySelectorAll(".portfolio-card-hit").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".portfolio-card");
+      const fullText = card?.querySelector(".sample-full");
+      if (!sampleModal || !card || !fullText) return;
+
+      lastFocused = button;
+      modalCategory.textContent = card.querySelector(".tag")?.textContent ?? "";
+      modalTitle.textContent = card.querySelector("h3")?.textContent ?? "";
+      modalBody.replaceChildren(
+        ...Array.from(fullText.children, (paragraph) => paragraph.cloneNode(true))
+      );
+      sampleModal.hidden = false;
+      document.body.classList.add("modal-open");
+      modalClose?.focus();
+    });
+  });
+
+  if (sampleModal) {
+    sampleModal.addEventListener("click", (event) => {
+      if (event.target.closest("[data-close-modal]")) closeSample();
+    });
+
+    sampleModal.addEventListener("keydown", (event) => {
+      if (event.key === "Tab") {
+        event.preventDefault();
+        modalClose?.focus();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeSample();
+  });
+
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
 
