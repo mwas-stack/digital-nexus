@@ -791,6 +791,129 @@ textarea {
   font-weight: 700;
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.writer-cta {
+  padding: 2.5rem 0;
+  border-top: 1px solid rgba(159, 176, 200, 0.1);
+  background: linear-gradient(135deg, rgba(53, 167, 255, 0.08), rgba(242, 193, 78, 0.06));
+}
+
+.writer-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.writer-cta h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+.writer-cta .btn {
+  flex-shrink: 0;
+}
+
+.join-section {
+  padding-top: clamp(3rem, 8vw, 5rem);
+}
+
+.join-grid {
+  align-items: start;
+}
+
+.join-title {
+  margin: 0 0 1rem;
+  font-size: clamp(2.4rem, 8vw, 4.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+.join-intro {
+  max-width: 52ch;
+  font-size: 1.05rem;
+}
+
+.form-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.form-fieldset legend,
+.label-row label {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.form-fieldset legend {
+  margin-bottom: 0.45rem;
+  padding: 0;
+}
+
+.checkbox-group {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.2rem;
+  padding: 0;
+  flex: 0 0 1rem;
+  accent-color: var(--gold);
+}
+
+.required-mark {
+  color: var(--gold);
+}
+
+.label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.char-counter {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.char-counter.is-limit {
+  color: var(--gold);
+}
+
+.form-note {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.form-status.is-error {
+  color: #ffb3b3;
+  font-style: normal;
+}
+
 .brand-mark--small {
   width: 34px;
   height: 34px;
@@ -941,6 +1064,13 @@ textarea {
 
 @media (min-width: 700px) {
   .footer-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .writer-cta-inner {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

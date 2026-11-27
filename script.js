@@ -75,50 +75,109 @@ document.addEventListener("DOMContentLoaded", () => {
     sections.forEach((section) => navObserver.observe(section));
   }
 
-  const form = document.getElementById("contact-form");
-  const formStatus = document.getElementById("form-status");
+  const setupAjaxForm = (formId, statusId, { successMessage, failureMessage, validate }) => {
+    const form = document.getElementById(formId);
+    const formStatus = document.getElementById(statusId);
+    if (!form || !formStatus) return;
 
-  if (form && formStatus) {
+    const clearStatus = () => {
+      formStatus.textContent = "";
+      formStatus.classList.remove("is-success", "is-error");
+    };
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      clearStatus();
+
+      if (validate) {
+        const validationMessage = validate(form);
+        if (validationMessage) {
+          formStatus.textContent = validationMessage;
+          formStatus.classList.add("is-error");
+          return;
+        }
+      }
 
       if (!form.checkValidity()) {
         formStatus.textContent = "Please complete all required fields.";
-        formStatus.classList.remove("is-success");
+        formStatus.classList.add("is-error");
         form.reportValidity();
         return;
       }
 
       formStatus.textContent = "Sending...";
-      formStatus.classList.remove("is-success");
 
       try {
-        const response = await fetch("https://formspree.io/f/xgakdzav", {
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            data[key] = Array.isArray(data[key]) ? [...data[key], value] : [data[key], value];
+          } else {
+            data[key] = value;
+          }
+        });
+
+        const response = await fetch(form.action || "https://formspree.io/f/xgakdzav", {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          body: JSON.stringify(data),
         });
 
         if (!response.ok) throw new Error("Form submission failed");
 
-        formStatus.textContent = "Thanks, I'll reply within 48 hours";
+        formStatus.textContent = successMessage;
         formStatus.classList.add("is-success");
         form.reset();
+        form.dispatchEvent(new Event("reset"));
       } catch {
-        formStatus.textContent =
-          "Sorry, your message couldn't be sent. Please email me at ruchuraphael8@gmail.com and I'll reply as soon as I can.";
-        formStatus.classList.remove("is-success");
+        formStatus.textContent = failureMessage;
+        formStatus.classList.add("is-error");
       }
     });
 
     form.addEventListener("input", () => {
-      if (!formStatus.classList.contains("is-success")) return;
-      formStatus.textContent = "";
-      formStatus.classList.remove("is-success");
+      if (formStatus.classList.contains("is-success") || formStatus.classList.contains("is-error")) {
+        clearStatus();
+      }
     });
+  };
+
+  setupAjaxForm("contact-form", "form-status", {
+    successMessage: "Thanks, I'll reply within 48 hours",
+    failureMessage:
+      "Sorry, your message couldn't be sent. Please email me at ruchuraphael8@gmail.com and I'll reply as soon as I can.",
+  });
+
+  setupAjaxForm("writer-form", "writer-form-status", {
+    successMessage: "Thanks, we'll review your application and reply within 7 days",
+    failureMessage:
+      "Sorry, your application couldn't be sent. Please email your application to ruchuraphael8@gmail.com and we'll review it as soon as we can.",
+    validate: (form) => {
+      const specialties = form.querySelectorAll('input[name="specialties"]:checked');
+      if (specialties.length === 0) return "Please select at least one specialty.";
+      const portfolio = form.querySelector("#writer-portfolio-1");
+      if (portfolio && !portfolio.value.trim()) return "Please provide at least one portfolio link.";
+      return "";
+    },
+  });
+
+  const writerBio = document.getElementById("writer-bio");
+  const bioCounter = document.getElementById("bio-counter");
+  if (writerBio && bioCounter) {
+    const updateBioCounter = () => {
+      const length = writerBio.value.length;
+      bioCounter.textContent = `${length}/500`;
+      bioCounter.classList.toggle("is-limit", length >= 500);
+    };
+    writerBio.addEventListener("input", updateBioCounter);
+    writerBio.form?.addEventListener("reset", () => {
+      setTimeout(updateBioCounter, 0);
+    });
+    updateBioCounter();
   }
 
   const sampleModal = document.getElementById("sample-modal");

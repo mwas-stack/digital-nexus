@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Apply to write with Digital Nexus. Join a small network of vetted business writers."
+    />
+    <title>Write with Digital Nexus | Digital Nexus</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html#home" aria-label="Digital Nexus home">
+          <span class="brand-mark" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+            <span class="pixel pixel-one"></span>
+            <span class="pixel pixel-two"></span>
+            <span class="pixel pixel-three"></span>
+          </span>
+          <span class="brand-text">
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+          <a href="index.html#services">Services</a>
+          <a href="index.html#portfolio">Portfolio</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="join.html" aria-current="page" class="active">For writers</a>
+          <a class="nav-cta" href="index.html#contact">Work with me</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section join-section" aria-labelledby="join-title">
+        <div class="container contact-grid join-grid">
+          <div class="contact-copy reveal">
+            <p class="eyebrow">For writers</p>
+            <h1 id="join-title" class="join-title">Write with Digital Nexus</h1>
+            <p class="join-intro">
+              We're building a small network of vetted business writers. Apply below and we'll
+              review your work.
+            </p>
+          </div>
+
+          <form
+            class="contact-form reveal"
+            id="writer-form"
+            action="https://formspree.io/f/xgakdzav"
+            novalidate
+          >
+            <input type="hidden" name="form_type" value="writer-application" />
+
+            <div class="form-row">
+              <label for="writer-name">Full name <span class="required-mark">*</span></label>
+              <input id="writer-name" name="full_name" type="text" autocomplete="name" required />
+            </div>
+
+            <div class="form-row">
+              <label for="writer-email">Email <span class="required-mark">*</span></label>
+              <input id="writer-email" name="email" type="email" autocomplete="email" required />
+            </div>
+
+            <div class="form-row">
+              <label for="writer-location">Country/city</label>
+              <input id="writer-location" name="country_city" type="text" autocomplete="address-level2" />
+            </div>
+
+            <fieldset class="form-row form-fieldset">
+              <legend>Specialties <span class="required-mark">*</span></legend>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="specialties" value="Content writing" />
+                  <span>Content writing</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="specialties" value="Social media copy" />
+                  <span>Social media copy</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="specialties" value="Product descriptions" />
+                  <span>Product descriptions</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="specialties" value="Business content" />
+                  <span>Business content</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="form-row">
+              <label for="writer-experience">Years of experience</label>
+              <input id="writer-experience" name="years_of_experience" type="text" inputmode="numeric" />
+            </div>
+
+            <div class="form-row">
+              <label for="writer-portfolio-1">Portfolio link 1 <span class="required-mark">*</span></label>
+              <input id="writer-portfolio-1" name="portfolio_link_1" type="url" placeholder="https://" required />
+            </div>
+
+            <div class="form-row">
+              <label for="writer-portfolio-2">Portfolio link 2</label>
+              <input id="writer-portfolio-2" name="portfolio_link_2" type="url" placeholder="https://" />
+            </div>
+
+            <div class="form-row">
+              <label for="writer-portfolio-3">Portfolio link 3</label>
+              <input id="writer-portfolio-3" name="portfolio_link_3" type="url" placeholder="https://" />
+            </div>
+
+            <div class="form-row">
+              <div class="label-row">
+                <label for="writer-bio">Short bio</label>
+                <span class="char-counter" id="bio-counter" aria-live="polite">0/500</span>
+              </div>
+              <textarea
+                id="writer-bio"
+                name="short_bio"
+                rows="5"
+                maxlength="500"
+                aria-describedby="bio-counter"
+              ></textarea>
+            </div>
+
+            <button class="btn btn--gold" type="submit">Submit application</button>
+            <p class="form-status" id="writer-form-status" role="status" aria-live="polite"></p>
+            <p class="form-note">
+              We contact you only about your application and never publish your details without your
+              permission.
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark brand-mark--small" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+          </span>
+          <span>
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </div>
+        <div class="footer-links">
+          <a href="join.html" aria-current="page">For writers</a>
+          <a href="index.html#home">Back to top <span aria-hidden="true">&uarr;</span></a>
+        </div>
+        <p>&copy; <span id="year">2026</span> Digital Nexus. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
