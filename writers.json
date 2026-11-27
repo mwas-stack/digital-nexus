@@ -1,0 +1,92 @@
+{
+  "writers": [
+    {
+      "id": "amara-okoye",
+      "name": "Amara Okoye",
+      "headline": "Long-form storyteller for purpose-driven brands",
+      "location": "Nairobi, Kenya",
+      "specialties": ["Content writing", "Business content"],
+      "bio": "Amara turns complex ideas into warm, readable stories. She has spent eight years shaping blog posts, guides and brand narratives for fictional startups, always starting with the reader's question and ending with a clear next step. Her work balances research, rhythm and voice.",
+      "availability": "Open to projects",
+      "sample": true,
+      "samples": [
+        {
+          "title": "Why the Rooftop Garden Mattered",
+          "category": "Content writing",
+          "excerpt": "A fictional city apartment block discovers that a patch of rooftop greenery can change how neighbours talk, cook and spend their evenings."
+        },
+        {
+          "title": "Annual Review, Minus the Jargon",
+          "category": "Business content",
+          "excerpt": "A sample report that turns a fictional foundation's dense year-end data into three clear priorities and one honest lesson."
+        }
+      ]
+    },
+    {
+      "id": "noor-wanjiku",
+      "name": "Noor Wanjiku",
+      "headline": "Social copy that sounds human and converts",
+      "location": "Mombasa, Kenya",
+      "specialties": ["Social media copy", "Content writing"],
+      "bio": "Noor writes captions and campaigns that feel like a conversation, not an advert. She plans calendars, tests hooks and finds the line between playful and persuasive. Her sample work covers food delivery, travel and lifestyle brands, with every post built for a real audience.",
+      "availability": "Open to projects",
+      "sample": true,
+      "samples": [
+        {
+          "title": "Five Captions for Kijani Kitchen",
+          "category": "Social media copy",
+          "excerpt": "Short, warm launch posts for a fictional meal-prep service, each built around a different moment in a busy working week."
+        },
+        {
+          "title": "A Travel Guide People Actually Finish",
+          "category": "Content writing",
+          "excerpt": "A sample city guide for a fictional tourism brand, organised by mood and journey length rather than by listicle length."
+        }
+      ]
+    },
+    {
+      "id": "kofi-mensah",
+      "name": "Kofi Mensah",
+      "headline": "Product copy that makes features feel useful",
+      "location": "Kampala, Uganda",
+      "specialties": ["Product descriptions", "Content writing"],
+      "bio": "Kofi writes product descriptions that answer the questions shoppers actually ask. He turns specifications into everyday benefits, keeps tone consistent across catalogues and never buries the detail that seals a decision. His sample catalogue work spans outdoor gear, skincare and home goods.",
+      "availability": "Booked",
+      "sample": true,
+      "samples": [
+        {
+          "title": "Savanna Trail 20L Daypack",
+          "category": "Product descriptions",
+          "excerpt": "A sample catalogue entry that turns water-resistant fabric and padded straps into reasons to carry the bag every single day."
+        },
+        {
+          "title": "The Skincare Ingredients Page",
+          "category": "Content writing",
+          "excerpt": "A fictional brand's ingredient guide that explains each active in plain language without making promises it cannot keep."
+        }
+      ]
+    },
+    {
+      "id": "sera-njoroge",
+      "name": "Sera Njoroge",
+      "headline": "Clear business content for technical teams",
+      "location": "Kisumu, Kenya",
+      "specialties": ["Business content", "Social media copy", "Product descriptions"],
+      "bio": "Sera makes dense business material easy to act on. From proposals and reports to internal updates and launch pages, she strips out jargon without losing accuracy. She enjoys working with technical teams and borrowing their precision to build content people trust.",
+      "availability": "Open to projects",
+      "sample": true,
+      "samples": [
+        {
+          "title": "Inside the BrightPath Logistics Update",
+          "category": "Business content",
+          "excerpt": "A sample internal briefing that explains a fictional delivery-platform change to drivers, dispatchers and customer support in one page."
+        },
+        {
+          "title": "The Luma Desk Lamp Listing",
+          "category": "Product descriptions",
+          "excerpt": "A sample product page for a fictional lamp that leads with the light you get, then covers dimming, reach and setup."
+        }
+      ]
+    }
+  ]
+}

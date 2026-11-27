@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Browse sample profiles from the Digital Nexus writers directory. Search by name or headline and filter by specialty."
+    />
+    <title>Writers Directory | Digital Nexus</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <script src="writers.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html#home" aria-label="Digital Nexus home">
+          <span class="brand-mark" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+            <span class="pixel pixel-one"></span>
+            <span class="pixel pixel-two"></span>
+            <span class="pixel pixel-three"></span>
+          </span>
+          <span class="brand-text">
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+          <a href="index.html#services">Services</a>
+          <a href="index.html#portfolio">Portfolio</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="writers.html" aria-current="page" class="active">Writers</a>
+          <a href="join.html">For writers</a>
+          <a class="nav-cta" href="index.html#contact">Work with me</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section writers-section" aria-labelledby="writers-title">
+        <div class="container">
+          <div class="section-header reveal">
+            <p class="eyebrow">Writers</p>
+            <h1 id="writers-title">Meet the Digital Nexus writers</h1>
+            <p>
+              Browse sample profiles from our fictional network. Search by name or headline, then
+              narrow the list by specialty.
+            </p>
+          </div>
+
+          <div class="writers-toolbar reveal">
+            <div class="search-field">
+              <label for="writer-search">Search by name or headline</label>
+              <input
+                id="writer-search"
+                name="writer-search"
+                type="search"
+                autocomplete="off"
+                aria-describedby="results-count"
+              />
+            </div>
+
+            <fieldset class="filter-group">
+              <legend>Filter by specialty</legend>
+              <div class="filter-chips">
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-specialty=""
+                  aria-pressed="true"
+                >
+                  All writers
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-specialty="Content writing"
+                  aria-pressed="false"
+                >
+                  Content writing
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-specialty="Social media copy"
+                  aria-pressed="false"
+                >
+                  Social media copy
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-specialty="Product descriptions"
+                  aria-pressed="false"
+                >
+                  Product descriptions
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-specialty="Business content"
+                  aria-pressed="false"
+                >
+                  Business content
+                </button>
+              </div>
+            </fieldset>
+
+            <p class="results-count" id="results-count" role="status" aria-live="polite"></p>
+          </div>
+
+          <p class="directory-status" id="writers-status" role="status" aria-live="polite">
+            Loading writers…
+          </p>
+
+          <div class="writer-grid" id="writer-grid"></div>
+
+          <div class="writer-empty" id="writer-empty" hidden>
+            <h2>No writers match those filters</h2>
+            <p>
+              Try another name or headline, or choose a different specialty. There are four sample
+              profiles waiting to be explored.
+            </p>
+            <button type="button" class="btn btn--gold" id="clear-filters">Clear filters</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark brand-mark--small" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+          </span>
+          <span>
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </div>
+        <div class="footer-links">
+          <a href="writers.html" aria-current="page">Writers</a>
+          <a href="join.html">For writers</a>
+          <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
+        </div>
+        <p>&copy; <span id="year">2026</span> Digital Nexus. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

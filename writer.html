@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="View a sample writer profile from the Digital Nexus writers directory, including specialties and writing samples."
+    />
+    <title>Writer Profile | Digital Nexus</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <script src="writers.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html#home" aria-label="Digital Nexus home">
+          <span class="brand-mark" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+            <span class="pixel pixel-one"></span>
+            <span class="pixel pixel-two"></span>
+            <span class="pixel pixel-three"></span>
+          </span>
+          <span class="brand-text">
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+          <a href="index.html#services">Services</a>
+          <a href="index.html#portfolio">Portfolio</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="writers.html">Writers</a>
+          <a href="join.html">For writers</a>
+          <a class="nav-cta" href="index.html#contact">Work with me</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section profile-section" aria-label="Writer profile">
+        <div class="container">
+          <a class="back-link" href="writers.html">
+            <span aria-hidden="true">&larr;</span> All writers
+          </a>
+
+          <p class="directory-status" id="profile-status" role="status" aria-live="polite">
+            Loading writer profile…
+          </p>
+
+          <div class="profile-layout" id="profile-content" hidden>
+            <aside class="profile-sidebar" id="profile-sidebar" aria-label="Writer details"></aside>
+            <div class="profile-main" id="profile-main"></div>
+          </div>
+
+          <div class="profile-not-found" id="profile-not-found" hidden>
+            <p class="eyebrow">Writers</p>
+            <h1>Writer not found</h1>
+            <p>
+              That profile isn't in the directory. Head back to browse the four sample writers we
+              have on the roster.
+            </p>
+            <a class="btn btn--gold" href="writers.html">Back to writers</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark brand-mark--small" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+          </span>
+          <span>
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </div>
+        <div class="footer-links">
+          <a href="writers.html">Writers</a>
+          <a href="join.html">For writers</a>
+          <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
+        </div>
+        <p>&copy; <span id="year">2026</span> Digital Nexus. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div class="request-modal" id="request-modal" hidden>
+      <div class="request-modal-backdrop" data-close-request></div>
+      <div
+        class="request-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="request-title"
+        aria-describedby="request-context"
+      >
+        <button
+          type="button"
+          class="request-modal-close"
+          id="request-close"
+          aria-label="Close request form"
+        >
+          &times;
+        </button>
+        <p class="eyebrow">Writer request</p>
+        <h2 id="request-title">Request this writer</h2>
+        <p class="request-context" id="request-context"></p>
+
+        <form class="contact-form" id="request-form" novalidate>
+          <input type="hidden" name="form_type" value="writer-request" />
+          <input type="hidden" name="writer_id" id="request-writer-id" value="" />
+          <input type="hidden" name="writer_name" id="request-writer-name" value="" />
+
+          <div class="form-row">
+            <label for="request-name">Your name <span class="required-mark">*</span></label>
+            <input id="request-name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div class="form-row">
+            <label for="request-email">Email <span class="required-mark">*</span></label>
+            <input id="request-email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <div class="form-row">
+            <label for="request-brief">Project brief <span class="required-mark">*</span></label>
+            <textarea
+              id="request-brief"
+              name="project_brief"
+              rows="5"
+              aria-describedby="request-note"
+              required
+            ></textarea>
+          </div>
+
+          <button class="btn btn--gold" type="submit" id="request-submit">Send request</button>
+          <p class="form-status" id="request-status" role="status" aria-live="polite"></p>
+          <p class="form-note" id="request-note">
+            We use your details only to respond to this request. If the form doesn't work, email
+            <a href="mailto:ruchuraphael8@gmail.com">ruchuraphael8@gmail.com</a>.
+          </p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
