@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Manage your Digital Nexus writer profile and review incoming client requests."
+    />
+    <title>Writer Dashboard | Digital Nexus</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2/dist/umd/supabase.js"></script>
+    <script defer src="supabase-config.js"></script>
+    <script defer src="auth.js"></script>
+    <script defer src="script.js"></script>
+    <script defer src="account.js"></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html#home" aria-label="Digital Nexus home">
+          <span class="brand-mark" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+            <span class="pixel pixel-one"></span>
+            <span class="pixel pixel-two"></span>
+            <span class="pixel pixel-three"></span>
+          </span>
+          <span class="brand-text">
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+          <a href="index.html#services">Services</a>
+          <a href="index.html#portfolio">Portfolio</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="writers.html">Writers</a>
+          <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
+          <a class="nav-cta" href="index.html#contact">Work with me</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section dashboard-section" aria-labelledby="dashboard-title">
+        <div class="container">
+          <p class="directory-status" id="dashboard-loading" role="status">Checking your session…</p>
+
+          <div class="dashboard-app" id="dashboard-app" hidden>
+            <div class="dashboard-header">
+              <div>
+                <p class="eyebrow">Writer account</p>
+                <h1 id="dashboard-title">Your dashboard</h1>
+              </div>
+              <div class="dashboard-actions">
+                <span class="status-badge status-badge--pending" id="profile-badge">
+                  Pending approval
+                </span>
+                <button type="button" class="btn btn--outline" id="logout-button">Log out</button>
+              </div>
+            </div>
+
+            <div class="dashboard-grid">
+              <section class="dash-panel" aria-labelledby="profile-form-title">
+                <h2 id="profile-form-title">Your profile</h2>
+                <p class="panel-intro">
+                  Keep your details accurate. Changes to an approved profile are reviewed again
+                  before they appear in the directory.
+                </p>
+
+                <form class="contact-form" id="profile-form" novalidate>
+                  <div class="form-row">
+                    <label for="profile-name">Name <span class="required-mark">*</span></label>
+                    <input
+                      id="profile-name"
+                      name="name"
+                      type="text"
+                      autocomplete="name"
+                      maxlength="100"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-row">
+                    <label for="profile-headline">Headline</label>
+                    <input
+                      id="profile-headline"
+                      name="headline"
+                      type="text"
+                      maxlength="140"
+                    />
+                  </div>
+
+                  <div class="form-row">
+                    <label for="profile-location">Location</label>
+                    <input
+                      id="profile-location"
+                      name="location"
+                      type="text"
+                      autocomplete="address-level2"
+                      maxlength="100"
+                    />
+                  </div>
+
+                  <fieldset class="form-row form-fieldset">
+                    <legend>Specialties</legend>
+                    <div class="checkbox-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" name="specialties" value="Content writing" />
+                        <span>Content writing</span>
+                      </label>
+                      <label class="checkbox-label">
+                        <input type="checkbox" name="specialties" value="Social media copy" />
+                        <span>Social media copy</span>
+                      </label>
+                      <label class="checkbox-label">
+                        <input type="checkbox" name="specialties" value="Product descriptions" />
+                        <span>Product descriptions</span>
+                      </label>
+                      <label class="checkbox-label">
+                        <input type="checkbox" name="specialties" value="Business content" />
+                        <span>Business content</span>
+                      </label>
+                    </div>
+                  </fieldset>
+
+                  <div class="form-row">
+                    <div class="label-row">
+                      <label for="profile-bio">Bio</label>
+                      <span class="char-counter" id="bio-counter" aria-live="polite">0/800</span>
+                    </div>
+                    <textarea
+                      id="profile-bio"
+                      name="bio"
+                      rows="5"
+                      maxlength="800"
+                      aria-describedby="bio-counter"
+                    ></textarea>
+                  </div>
+
+                  <div class="form-row">
+                    <label for="profile-availability">Availability</label>
+                    <select id="profile-availability" name="availability">
+                      <option value="Open to projects">Open to projects</option>
+                      <option value="Booked">Booked</option>
+                    </select>
+                  </div>
+
+                  <fieldset class="form-row form-fieldset sample-fields">
+                    <legend>Writing samples</legend>
+                    <p class="form-note">Add up to three samples. Leave a slot blank if unused.</p>
+
+                    <div class="sample-field">
+                      <h3>Sample 1</h3>
+                      <div class="form-row">
+                        <label for="sample-title-1">Title</label>
+                        <input id="sample-title-1" type="text" maxlength="120" />
+                      </div>
+                      <div class="form-row">
+                        <label for="sample-category-1">Category</label>
+                        <select id="sample-category-1">
+                          <option>Content writing</option>
+                          <option>Social media copy</option>
+                          <option>Product descriptions</option>
+                          <option>Business content</option>
+                        </select>
+                      </div>
+                      <div class="form-row">
+                        <label for="sample-excerpt-1">Excerpt</label>
+                        <textarea id="sample-excerpt-1" rows="3" maxlength="300"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="sample-field">
+                      <h3>Sample 2</h3>
+                      <div class="form-row">
+                        <label for="sample-title-2">Title</label>
+                        <input id="sample-title-2" type="text" maxlength="120" />
+                      </div>
+                      <div class="form-row">
+                        <label for="sample-category-2">Category</label>
+                        <select id="sample-category-2">
+                          <option>Content writing</option>
+                          <option>Social media copy</option>
+                          <option>Product descriptions</option>
+                          <option>Business content</option>
+                        </select>
+                      </div>
+                      <div class="form-row">
+                        <label for="sample-excerpt-2">Excerpt</label>
+                        <textarea id="sample-excerpt-2" rows="3" maxlength="300"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="sample-field">
+                      <h3>Sample 3</h3>
+                      <div class="form-row">
+                        <label for="sample-title-3">Title</label>
+                        <input id="sample-title-3" type="text" maxlength="120" />
+                      </div>
+                      <div class="form-row">
+                        <label for="sample-category-3">Category</label>
+                        <select id="sample-category-3">
+                          <option>Content writing</option>
+                          <option>Social media copy</option>
+                          <option>Product descriptions</option>
+                          <option>Business content</option>
+                        </select>
+                      </div>
+                      <div class="form-row">
+                        <label for="sample-excerpt-3">Excerpt</label>
+                        <textarea id="sample-excerpt-3" rows="3" maxlength="300"></textarea>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <button class="btn btn--gold" type="submit">Save profile</button>
+                  <p class="form-status" id="profile-status" role="status" aria-live="polite"></p>
+                </form>
+              </section>
+
+              <aside class="dash-panel" aria-labelledby="requests-title">
+                <h2 id="requests-title">Incoming requests</h2>
+                <p class="panel-intro">
+                  Client requests sent from your public profile appear here.
+                </p>
+                <p class="form-status" id="requests-status" role="status" aria-live="polite"></p>
+                <div class="request-list" id="requests-list"></div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark brand-mark--small" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+          </span>
+          <span>
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </div>
+        <div class="footer-links">
+          <a href="writers.html">Writers</a>
+          <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
+          <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
+        </div>
+        <p>&copy; <span id="year">2026</span> Digital Nexus. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

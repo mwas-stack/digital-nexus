@@ -9,8 +9,11 @@
     />
     <title>Writer Profile | Digital Nexus</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <script src="writers.js" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2/dist/umd/supabase.js"></script>
+    <script defer src="supabase-config.js"></script>
+    <script defer src="auth.js"></script>
+    <script defer src="script.js"></script>
+    <script defer src="writers.js"></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -49,6 +52,8 @@
           <a href="index.html#contact">Contact</a>
           <a href="writers.html">Writers</a>
           <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
           <a class="nav-cta" href="index.html#contact">Work with me</a>
         </nav>
       </div>
@@ -74,8 +79,8 @@
             <p class="eyebrow">Writers</p>
             <h1>Writer not found</h1>
             <p>
-              That profile isn't in the directory. Head back to browse the four sample writers we
-              have on the roster.
+              That profile isn't in the directory. Head back to browse the writers currently
+              listed.
             </p>
             <a class="btn btn--gold" href="writers.html">Back to writers</a>
           </div>
@@ -97,6 +102,8 @@
         <div class="footer-links">
           <a href="writers.html">Writers</a>
           <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
           <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
         </div>
         <p>&copy; <span id="year">2026</span> Digital Nexus. All rights reserved.</p>
@@ -131,12 +138,26 @@
 
           <div class="form-row">
             <label for="request-name">Your name <span class="required-mark">*</span></label>
-            <input id="request-name" name="name" type="text" autocomplete="name" required />
+            <input
+              id="request-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              maxlength="100"
+              required
+            />
           </div>
 
           <div class="form-row">
             <label for="request-email">Email <span class="required-mark">*</span></label>
-            <input id="request-email" name="email" type="email" autocomplete="email" required />
+            <input
+              id="request-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              maxlength="254"
+              required
+            />
           </div>
 
           <div class="form-row">
@@ -145,6 +166,7 @@
               id="request-brief"
               name="project_brief"
               rows="5"
+              maxlength="2000"
               aria-describedby="request-note"
               required
             ></textarea>

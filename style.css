@@ -1004,6 +1004,255 @@ textarea {
   letter-spacing: 0.04em;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+.btn--outline {
+  border-color: var(--line);
+  background: rgba(13, 35, 66, 0.8);
+  color: var(--text);
+}
+
+.btn--outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(6, 20, 38, 0.78);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+select:focus {
+  border-color: var(--blue);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(53, 167, 255, 0.16);
+}
+
+/* Accounts */
+.auth-layout {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+.auth-copy p {
+  color: var(--muted);
+}
+
+.auth-copy .btn {
+  margin-top: 0.5rem;
+}
+
+.auth-card {
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, rgba(13, 35, 66, 0.94), rgba(9, 27, 51, 0.94));
+  box-shadow: var(--shadow);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.auth-tab[aria-selected="true"] {
+  border-bottom-color: var(--gold);
+  color: var(--gold);
+}
+
+.auth-panel .contact-form {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.text-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--blue);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.text-button:hover {
+  color: var(--gold);
+  text-decoration: underline;
+}
+
+.reset-intro {
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* Dashboard */
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: -0.03em;
+}
+
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.status-badge--pending {
+  border: 1px solid rgba(242, 193, 78, 0.45);
+  background: rgba(242, 193, 78, 0.12);
+  color: var(--gold);
+}
+
+.status-badge--live {
+  border: 1px solid rgba(53, 167, 255, 0.45);
+  background: rgba(53, 167, 255, 0.12);
+  color: var(--blue);
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.dash-panel {
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, rgba(13, 35, 66, 0.94), rgba(9, 27, 51, 0.94));
+}
+
+.dash-panel > h2 {
+  font-size: 1.5rem;
+}
+
+.panel-intro {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.dash-panel .contact-form {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.sample-fields {
+  display: grid;
+  gap: 1rem;
+}
+
+.sample-field {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(6, 20, 38, 0.45);
+}
+
+.sample-field h3 {
+  margin: 0;
+  color: var(--gold);
+  font-size: 1rem;
+}
+
+.sample-field textarea {
+  min-height: 90px;
+}
+
+.request-list {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.request-card {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 12px;
+  background: rgba(6, 20, 38, 0.5);
+}
+
+.request-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.request-card-top time {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.request-contact {
+  margin: 0.6rem 0;
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+}
+
+.request-brief {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.requests-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 /* Writers directory */
 .writers-toolbar {
   display: grid;
@@ -1518,5 +1767,30 @@ textarea {
 @media (min-width: 1024px) {
   .writer-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 800px) {
+  .auth-layout {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .dashboard-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+  }
+
+  .sample-field {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .sample-field h3 {
+    grid-column: 1 / -1;
   }
 }

@@ -1,113 +1,24 @@
 const FORMSPREE_URL = "https://formspree.io/f/xgakdzav";
 const SUPPORT_EMAIL = "ruchuraphael8@gmail.com";
 
-// Used only when writers.json cannot be fetched (for example, opening a page directly from disk).
-const FALLBACK_WRITERS = [
-  {
-    id: "amara-okoye",
-    name: "Amara Okoye",
-    headline: "Long-form storyteller for purpose-driven brands",
-    location: "Nairobi, Kenya",
-    specialties: ["Content writing", "Business content"],
-    bio: "Amara turns complex ideas into warm, readable stories. She has spent eight years shaping blog posts, guides and brand narratives for fictional startups, always starting with the reader's question and ending with a clear next step. Her work balances research, rhythm and voice.",
-    availability: "Open to projects",
-    sample: true,
-    samples: [
-      {
-        title: "Why the Rooftop Garden Mattered",
-        category: "Content writing",
-        excerpt: "A fictional city apartment block discovers that a patch of rooftop greenery can change how neighbours talk, cook and spend their evenings.",
-      },
-      {
-        title: "Annual Review, Minus the Jargon",
-        category: "Business content",
-        excerpt: "A sample report that turns a fictional foundation's dense year-end data into three clear priorities and one honest lesson.",
-      },
-    ],
-  },
-  {
-    id: "noor-wanjiku",
-    name: "Noor Wanjiku",
-    headline: "Social copy that sounds human and converts",
-    location: "Mombasa, Kenya",
-    specialties: ["Social media copy", "Content writing"],
-    bio: "Noor writes captions and campaigns that feel like a conversation, not an advert. She plans calendars, tests hooks and finds the line between playful and persuasive. Her sample work covers food delivery, travel and lifestyle brands, with every post built for a real audience.",
-    availability: "Open to projects",
-    sample: true,
-    samples: [
-      {
-        title: "Five Captions for Kijani Kitchen",
-        category: "Social media copy",
-        excerpt: "Short, warm launch posts for a fictional meal-prep service, each built around a different moment in a busy working week.",
-      },
-      {
-        title: "A Travel Guide People Actually Finish",
-        category: "Content writing",
-        excerpt: "A sample city guide for a fictional tourism brand, organised by mood and journey length rather than by listicle length.",
-      },
-    ],
-  },
-  {
-    id: "kofi-mensah",
-    name: "Kofi Mensah",
-    headline: "Product copy that makes features feel useful",
-    location: "Kampala, Uganda",
-    specialties: ["Product descriptions", "Content writing"],
-    bio: "Kofi writes product descriptions that answer the questions shoppers actually ask. He turns specifications into everyday benefits, keeps tone consistent across catalogues and never buries the detail that seals a decision. His sample catalogue work spans outdoor gear, skincare and home goods.",
-    availability: "Booked",
-    sample: true,
-    samples: [
-      {
-        title: "Savanna Trail 20L Daypack",
-        category: "Product descriptions",
-        excerpt: "A sample catalogue entry that turns water-resistant fabric and padded straps into reasons to carry the bag every single day.",
-      },
-      {
-        title: "The Skincare Ingredients Page",
-        category: "Content writing",
-        excerpt: "A fictional brand's ingredient guide that explains each active in plain language without making promises it cannot keep.",
-      },
-    ],
-  },
-  {
-    id: "sera-njoroge",
-    name: "Sera Njoroge",
-    headline: "Clear business content for technical teams",
-    location: "Kisumu, Kenya",
-    specialties: ["Business content", "Social media copy", "Product descriptions"],
-    bio: "Sera makes dense business material easy to act on. From proposals and reports to internal updates and launch pages, she strips out jargon without losing accuracy. She enjoys working with technical teams and borrowing their precision to build content people trust.",
-    availability: "Open to projects",
-    sample: true,
-    samples: [
-      {
-        title: "Inside the BrightPath Logistics Update",
-        category: "Business content",
-        excerpt: "A sample internal briefing that explains a fictional delivery-platform change to drivers, dispatchers and customer support in one page.",
-      },
-      {
-        title: "The Luma Desk Lamp Listing",
-        category: "Product descriptions",
-        excerpt: "A sample product page for a fictional lamp that leads with the light you get, then covers dimming, reach and setup.",
-      },
-    ],
-  },
-];
+async function fetchApprovedWriters() {
+  const db = window.nexusDb;
+  if (!db) throw new Error("Supabase is unavailable");
 
-async function loadWriters() {
-  try {
-    const response = await fetch("writers.json", { headers: { Accept: "application/json" } });
-    if (!response.ok) throw new Error(`Directory request failed: ${response.status}`);
-    const data = await response.json();
-    const list = Array.isArray(data) ? data : data.writers;
-    if (!Array.isArray(list) || list.length === 0) throw new Error("Directory is empty");
-    return list;
-  } catch {
-    return FALLBACK_WRITERS;
-  }
+  const { data, error } = await db
+    .from("profiles")
+    .select("id,name,headline,location,specialties,bio,availability,samples,status")
+    .eq("status", "approved");
+
+  if (error) throw error;
+
+  return (data || []).filter(
+    (writer) => writer && writer.status === "approved" && writer.id && writer.name
+  );
 }
 
 function getInitials(name) {
-  return name
+  return String(name)
     .trim()
     .split(/\s+/)
     .slice(0, 2)
@@ -130,15 +41,59 @@ function createBadge(availability) {
   return badge;
 }
 
+function createCard(writer) {
+  const card = document.createElement("a");
+  card.className = "writer-card";
+  card.href = `writer.html?id=${encodeURIComponent(writer.id)}`;
+  card.setAttribute("aria-label", `View profile for ${writer.name}`);
+
+  const top = document.createElement("div");
+  top.className = "writer-card-top";
+
+  const avatar = document.createElement("span");
+  avatar.className = "writer-avatar";
+  avatar.setAttribute("aria-hidden", "true");
+  avatar.textContent = getInitials(writer.name);
+
+  const heading = document.createElement("h2");
+  heading.textContent = writer.name;
+
+  const headline = document.createElement("p");
+  headline.className = "writer-headline";
+  headline.textContent = writer.headline || "";
+
+  const location = document.createElement("p");
+  location.className = "writer-location";
+  location.textContent = writer.location || "";
+
+  const tags = document.createElement("div");
+  tags.className = "writer-tags";
+  (Array.isArray(writer.specialties) ? writer.specialties : []).forEach((specialty) => {
+    tags.append(createTag(specialty));
+  });
+
+  const label = document.createElement("p");
+  label.className = "sample-label";
+  label.textContent = "Digital Nexus writer";
+
+  top.append(avatar, createBadge(writer.availability));
+  card.append(top, heading, headline, location, tags, label);
+  return card;
+}
+
 function initDirectory() {
   const grid = document.getElementById("writer-grid");
   const status = document.getElementById("writers-status");
   const search = document.getElementById("writer-search");
   const count = document.getElementById("results-count");
   const empty = document.getElementById("writer-empty");
+  const emptyHeading = document.getElementById("empty-heading");
+  const emptyText = document.getElementById("empty-text");
+  const emptyJoin = document.getElementById("empty-join");
   const clearButton = document.getElementById("clear-filters");
   const chips = Array.from(document.querySelectorAll(".filter-chip"));
   let writers = [];
+  let loaded = false;
 
   const render = () => {
     const query = search.value.trim().toLowerCase();
@@ -148,15 +103,33 @@ function initDirectory() {
     const matches = writers.filter((writer) => {
       const matchesQuery =
         !query ||
-        writer.name.toLowerCase().includes(query) ||
-        writer.headline.toLowerCase().includes(query);
-      const matchesSpecialty = !specialty || writer.specialties.includes(specialty);
+        String(writer.name).toLowerCase().includes(query) ||
+        String(writer.headline || "").toLowerCase().includes(query);
+      const matchesSpecialty =
+        !specialty || (Array.isArray(writer.specialties) && writer.specialties.includes(specialty));
       return matchesQuery && matchesSpecialty;
     });
 
     grid.replaceChildren(...matches.map(createCard));
-    empty.hidden = matches.length > 0;
-    count.textContent = `${matches.length} of ${writers.length} sample profiles`;
+    count.textContent = `${matches.length} of ${writers.length} writers shown`;
+
+    const isEmpty = matches.length === 0;
+    empty.hidden = !isEmpty;
+    if (isEmpty) {
+      if (loaded && writers.length === 0) {
+        emptyHeading.textContent = "No writers listed yet";
+        emptyText.textContent =
+          "There are no approved writer profiles in the directory yet. Join the network to be one of the first.";
+        emptyJoin.hidden = false;
+        clearButton.hidden = true;
+      } else {
+        emptyHeading.textContent = "No writers match those filters";
+        emptyText.textContent =
+          "Try another name or headline, or choose a different specialty.";
+        emptyJoin.hidden = true;
+        clearButton.hidden = false;
+      }
+    }
   };
 
   search.addEventListener("input", render);
@@ -175,49 +148,17 @@ function initDirectory() {
     search.focus();
   });
 
-  loadWriters().then((list) => {
-    writers = list;
-    status.hidden = true;
-    render();
-  });
-}
-
-function createCard(writer) {
-  const card = document.createElement("a");
-  card.className = "writer-card";
-  card.href = `writer.html?id=${encodeURIComponent(writer.id)}`;
-  card.setAttribute("aria-label", `View sample profile for ${writer.name}`);
-
-  const top = document.createElement("div");
-  top.className = "writer-card-top";
-
-  const avatar = document.createElement("span");
-  avatar.className = "writer-avatar";
-  avatar.setAttribute("aria-hidden", "true");
-  avatar.textContent = getInitials(writer.name);
-
-  const heading = document.createElement("h2");
-  heading.textContent = writer.name;
-
-  const headline = document.createElement("p");
-  headline.className = "writer-headline";
-  headline.textContent = writer.headline;
-
-  const location = document.createElement("p");
-  location.className = "writer-location";
-  location.textContent = writer.location;
-
-  const tags = document.createElement("div");
-  tags.className = "writer-tags";
-  writer.specialties.forEach((specialty) => tags.append(createTag(specialty)));
-
-  const sampleLabel = document.createElement("p");
-  sampleLabel.className = "sample-label";
-  sampleLabel.textContent = "Sample profile";
-
-  top.append(avatar, createBadge(writer.availability));
-  card.append(top, heading, headline, location, tags, sampleLabel);
-  return card;
+  fetchApprovedWriters()
+    .then((list) => {
+      writers = list;
+      loaded = true;
+      status.hidden = true;
+      render();
+    })
+    .catch(() => {
+      status.textContent =
+        "The directory couldn't be loaded. Check your connection and refresh the page.";
+    });
 }
 
 function renderProfile(writer, sidebar, main) {
@@ -226,17 +167,16 @@ function renderProfile(writer, sidebar, main) {
   avatar.setAttribute("aria-hidden", "true");
   avatar.textContent = getInitials(writer.name);
 
-  const sampleLabel = document.createElement("p");
-  sampleLabel.className = "sample-label";
-  sampleLabel.textContent = "Sample profile";
+  const label = document.createElement("p");
+  label.className = "sample-label";
+  label.textContent = "Digital Nexus writer";
 
   const heading = document.createElement("h1");
-  heading.id = "profile-name";
   heading.textContent = writer.name;
 
   const headline = document.createElement("p");
   headline.className = "profile-headline";
-  headline.textContent = writer.headline;
+  headline.textContent = writer.headline || "";
 
   const meta = document.createElement("div");
   meta.className = "profile-meta";
@@ -247,7 +187,7 @@ function renderProfile(writer, sidebar, main) {
   locationLabel.className = "detail-label";
   locationLabel.textContent = "Location";
   const locationValue = document.createElement("span");
-  locationValue.textContent = writer.location;
+  locationValue.textContent = writer.location || "";
   locationRow.append(locationLabel, locationValue);
 
   const availabilityRow = document.createElement("div");
@@ -260,7 +200,9 @@ function renderProfile(writer, sidebar, main) {
 
   const tags = document.createElement("div");
   tags.className = "writer-tags";
-  writer.specialties.forEach((specialty) => tags.append(createTag(specialty)));
+  (Array.isArray(writer.specialties) ? writer.specialties : []).forEach((specialty) => {
+    tags.append(createTag(specialty));
+  });
 
   const requestButton = document.createElement("button");
   requestButton.type = "button";
@@ -268,45 +210,48 @@ function renderProfile(writer, sidebar, main) {
   requestButton.id = "request-button";
   requestButton.textContent = "Request this writer";
 
-  sidebar.replaceChildren(avatar, sampleLabel, heading, headline, meta, tags, requestButton);
+  sidebar.replaceChildren(avatar, label, heading, headline, meta, tags, requestButton);
 
   const about = document.createElement("section");
   about.className = "profile-panel";
-  about.setAttribute("aria-labelledby", "about-heading");
   const aboutHeading = document.createElement("h2");
-  aboutHeading.id = "about-heading";
   aboutHeading.textContent = "About";
   const bio = document.createElement("p");
   bio.className = "profile-bio";
-  bio.textContent = writer.bio;
+  bio.textContent = writer.bio || "";
   about.append(aboutHeading, bio);
 
   const samplesPanel = document.createElement("section");
   samplesPanel.className = "profile-panel";
-  samplesPanel.setAttribute("aria-labelledby", "samples-heading");
   const samplesHeading = document.createElement("h2");
-  samplesHeading.id = "samples-heading";
   samplesHeading.textContent = "Writing samples";
   const samplesIntro = document.createElement("p");
   samplesIntro.className = "profile-bio";
-  samplesIntro.textContent = "Two fictional excerpts that show the range of this sample profile.";
+  samplesIntro.textContent = "Sample pieces shared by this writer.";
   const sampleList = document.createElement("div");
   sampleList.className = "sample-list";
 
-  writer.samples.forEach((sample) => {
+  (Array.isArray(writer.samples) ? writer.samples : []).forEach((sample) => {
     const article = document.createElement("article");
     article.className = "sample-card";
-    const category = createTag(sample.category);
+    const category = createTag(sample.category || "");
     const title = document.createElement("h3");
-    title.textContent = sample.title;
+    title.textContent = sample.title || "";
     const excerpt = document.createElement("p");
-    excerpt.textContent = sample.excerpt;
-    const label = document.createElement("p");
-    label.className = "sample-label";
-    label.textContent = "Sample excerpt · fictional brand";
-    article.append(category, title, excerpt, label);
+    excerpt.textContent = sample.excerpt || "";
+    const sampleLabel = document.createElement("p");
+    sampleLabel.className = "sample-label";
+    sampleLabel.textContent = "Writing sample";
+    article.append(category, title, excerpt, sampleLabel);
     sampleList.append(article);
   });
+
+  if (sampleList.childElementCount === 0) {
+    const none = document.createElement("p");
+    none.className = "profile-bio";
+    none.textContent = "This writer hasn't shared any samples yet.";
+    sampleList.append(none);
+  }
 
   samplesPanel.append(samplesHeading, samplesIntro, sampleList);
   main.replaceChildren(about, samplesPanel);
@@ -319,22 +264,27 @@ function initProfile() {
   const sidebar = document.getElementById("profile-sidebar");
   const main = document.getElementById("profile-main");
 
-  loadWriters().then((writers) => {
-    const id = new URLSearchParams(window.location.search).get("id");
-    const writer = writers.find((entry) => entry.id === id);
-    status.hidden = true;
+  fetchApprovedWriters()
+    .then((writers) => {
+      const id = new URLSearchParams(window.location.search).get("id");
+      const writer = writers.find((entry) => entry.id === id);
+      status.hidden = true;
 
-    if (!writer) {
-      notFound.hidden = false;
-      document.title = "Writer not found | Digital Nexus";
-      return;
-    }
+      if (!writer) {
+        notFound.hidden = false;
+        document.title = "Writer not found | Digital Nexus";
+        return;
+      }
 
-    renderProfile(writer, sidebar, main);
-    content.hidden = false;
-    document.title = `${writer.name} | Digital Nexus Writers`;
-    setupRequestForm(writer);
-  });
+      renderProfile(writer, sidebar, main);
+      content.hidden = false;
+      document.title = `${writer.name} | Digital Nexus Writers`;
+      setupRequestForm(writer);
+    })
+    .catch(() => {
+      status.textContent =
+        "We couldn't load this profile. Check your connection and refresh the page.";
+    });
 }
 
 function setupRequestForm(writer) {
@@ -346,6 +296,8 @@ function setupRequestForm(writer) {
   const submitButton = document.getElementById("request-submit");
   const context = document.getElementById("request-context");
   const nameInput = document.getElementById("request-name");
+  const emailInput = document.getElementById("request-email");
+  const briefInput = document.getElementById("request-brief");
   const idInput = document.getElementById("request-writer-id");
   const nameField = document.getElementById("request-writer-name");
   let lastFocused = null;
@@ -391,18 +343,15 @@ function setupRequestForm(writer) {
 
   document.addEventListener("keydown", (event) => {
     if (modal.hidden) return;
-
     if (event.key === "Escape") {
       closeModal();
       return;
     }
-
     if (event.key !== "Tab") return;
     const focusable = Array.from(
       modal.querySelectorAll("button, input, textarea, a[href]")
-    ).filter((element) => !element.disabled);
+    ).filter((element) => !element.disabled && element.type !== "hidden");
     if (focusable.length === 0) return;
-
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (event.shiftKey && document.activeElement === first) {
@@ -424,50 +373,77 @@ function setupRequestForm(writer) {
     event.preventDefault();
     clearStatus();
 
-    if (!form.checkValidity()) {
-      setStatus("Please complete all required fields.", "is-error");
-      form.reportValidity();
-      return;
-    }
+    const clientName = nameInput.value.trim();
+    const clientEmail = emailInput.value.trim();
+    const brief = briefInput.value.trim();
 
-    const payload = Object.fromEntries(new FormData(form).entries());
-    payload.form_type = "writer-request";
-    payload.writer_id = writer.id;
-    payload.writer_name = writer.name;
+    if (!clientName || clientName.length > 100) {
+      return setStatus("Please enter a name of 100 characters or fewer.", "is-error");
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail) || clientEmail.length > 254) {
+      return setStatus("Please enter a valid email address.", "is-error");
+    }
+    if (!brief) return setStatus("Please add a short project brief.", "is-error");
+    if (brief.length > 2000) {
+      return setStatus("Please keep your brief under 2000 characters.", "is-error");
+    }
+    if (!form.checkValidity()) {
+      return setStatus("Please check the form and try again.", "is-error");
+    }
 
     submitButton.disabled = true;
     submitButton.textContent = "Sending…";
     setStatus("Sending your request…", "");
 
     try {
-      const response = await fetch(FORMSPREE_URL, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+      if (!window.nexusDb) throw new Error("Supabase is unavailable");
+      const { error } = await window.nexusDb.from("requests").insert({
+        writer_id: writer.id,
+        client_name: clientName,
+        client_email: clientEmail,
+        brief,
       });
-
-      if (!response.ok) throw new Error("Request failed");
-
-      form.reset();
-      idInput.value = writer.id;
-      nameField.value = writer.name;
-      setStatus(
-        `Thanks, your request for ${writer.name} has been sent. We'll reply within 48 hours.`,
-        "is-success"
-      );
+      if (error) throw error;
     } catch {
       setStatus(
         "Sorry, your request couldn't be sent. Please email ",
         "is-error",
         true
       );
-    } finally {
       submitButton.disabled = false;
       submitButton.textContent = "Send request";
+      return;
     }
+
+    try {
+      await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          form_type: "writer-request",
+          writer_id: writer.id,
+          writer_name: writer.name,
+          name: clientName,
+          email: clientEmail,
+          project_brief: brief,
+        }),
+      });
+    } catch {
+      // Email notification is best-effort; the request is already saved.
+    }
+
+    form.reset();
+    idInput.value = writer.id;
+    nameField.value = writer.name;
+    setStatus(
+      `Thanks, your request for ${writer.name} has been sent. We'll reply within 48 hours.`,
+      "is-success"
+    );
+    submitButton.disabled = false;
+    submitButton.textContent = "Send request";
   });
 }
 

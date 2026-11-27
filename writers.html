@@ -9,8 +9,11 @@
     />
     <title>Writers Directory | Digital Nexus</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <script src="writers.js" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2/dist/umd/supabase.js"></script>
+    <script defer src="supabase-config.js"></script>
+    <script defer src="auth.js"></script>
+    <script defer src="script.js"></script>
+    <script defer src="writers.js"></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -49,6 +52,8 @@
           <a href="index.html#contact">Contact</a>
           <a href="writers.html" aria-current="page" class="active">Writers</a>
           <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
           <a class="nav-cta" href="index.html#contact">Work with me</a>
         </nav>
       </div>
@@ -61,8 +66,8 @@
             <p class="eyebrow">Writers</p>
             <h1 id="writers-title">Meet the Digital Nexus writers</h1>
             <p>
-              Browse sample profiles from our fictional network. Search by name or headline, then
-              narrow the list by specialty.
+              Browse approved writer profiles. Search by name or headline, then narrow the list by
+              specialty.
             </p>
           </div>
 
@@ -134,12 +139,15 @@
           <div class="writer-grid" id="writer-grid"></div>
 
           <div class="writer-empty" id="writer-empty" hidden>
-            <h2>No writers match those filters</h2>
-            <p>
-              Try another name or headline, or choose a different specialty. There are four sample
-              profiles waiting to be explored.
+            <h2 id="empty-heading">No writers listed yet</h2>
+            <p id="empty-text">
+              There are no approved writer profiles in the directory yet. Join the network to be one
+              of the first.
             </p>
-            <button type="button" class="btn btn--gold" id="clear-filters">Clear filters</button>
+            <a class="btn btn--gold" href="join.html" id="empty-join" hidden>Join the network</a>
+            <button type="button" class="btn btn--gold" id="clear-filters" hidden>
+              Clear filters
+            </button>
           </div>
         </div>
       </section>
@@ -159,6 +167,8 @@
         <div class="footer-links">
           <a href="writers.html" aria-current="page">Writers</a>
           <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
           <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
         </div>
         <p>&copy; <span id="year">2026</span> Digital Nexus. All rights reserved.</p>

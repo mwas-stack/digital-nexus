@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sign up or log in to your Digital Nexus writer account to manage your profile and client requests."
+    />
+    <title>Writer Login | Digital Nexus</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2/dist/umd/supabase.js"></script>
+    <script defer src="supabase-config.js"></script>
+    <script defer src="auth.js"></script>
+    <script defer src="script.js"></script>
+    <script defer src="account.js"></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html#home" aria-label="Digital Nexus home">
+          <span class="brand-mark" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+            <span class="pixel pixel-one"></span>
+            <span class="pixel pixel-two"></span>
+            <span class="pixel pixel-three"></span>
+          </span>
+          <span class="brand-text">
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+          <a href="index.html#services">Services</a>
+          <a href="index.html#portfolio">Portfolio</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="writers.html">Writers</a>
+          <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
+          <a class="nav-cta" href="index.html#contact">Work with me</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section auth-section" aria-labelledby="auth-title">
+        <div class="container auth-layout">
+          <div class="auth-copy reveal">
+            <p class="eyebrow">Writer account</p>
+            <h1 id="auth-title">Your profile, your requests.</h1>
+            <p>
+              Sign up to join the Digital Nexus writer network. Keep your profile current and see
+              client requests in one place.
+            </p>
+            <p>
+              New profiles are reviewed before they appear in the public directory. You'll see
+              "Pending approval" until your profile is live.
+            </p>
+            <a class="btn btn--gold" href="join.html">Apply to write <span aria-hidden="true">&rarr;</span></a>
+          </div>
+
+          <div class="auth-card reveal" id="auth-card">
+            <div class="auth-tabs" role="tablist" aria-label="Account access">
+              <button
+                type="button"
+                class="auth-tab"
+                id="tab-signup"
+                data-auth-tab="signup"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-signup"
+              >
+                Sign up
+              </button>
+              <button
+                type="button"
+                class="auth-tab"
+                id="tab-login"
+                data-auth-tab="login"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-login"
+              >
+                Log in
+              </button>
+            </div>
+
+            <div class="auth-panel" id="panel-signup" role="tabpanel" aria-labelledby="tab-signup">
+              <form class="contact-form" id="signup-form" novalidate>
+                <div class="form-row">
+                  <label for="signup-name">Name <span class="required-mark">*</span></label>
+                  <input
+                    id="signup-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    maxlength="100"
+                    required
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="signup-email">Email <span class="required-mark">*</span></label>
+                  <input
+                    id="signup-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="signup-password">
+                    Password <span class="required-mark">*</span>
+                  </label>
+                  <input
+                    id="signup-password"
+                    name="password"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="128"
+                    aria-describedby="password-hint"
+                    required
+                  />
+                  <p class="form-note" id="password-hint">Use at least 8 characters.</p>
+                </div>
+                <button class="btn btn--gold" type="submit">Create account</button>
+              </form>
+            </div>
+
+            <div class="auth-panel" id="panel-login" role="tabpanel" aria-labelledby="tab-login" hidden>
+              <form class="contact-form" id="login-form" novalidate>
+                <div class="form-row">
+                  <label for="login-email">Email <span class="required-mark">*</span></label>
+                  <input
+                    id="login-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="login-password">Password <span class="required-mark">*</span></label>
+                  <input
+                    id="login-password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    maxlength="128"
+                    required
+                  />
+                </div>
+                <button class="btn btn--gold" type="submit">Log in</button>
+                <button type="button" class="text-button" id="show-reset">Forgot password?</button>
+              </form>
+            </div>
+
+            <div class="auth-panel" id="panel-reset" hidden>
+              <form class="contact-form" id="reset-form" novalidate>
+                <p class="reset-intro">
+                  Enter your email and we'll send you a link to choose a new password.
+                </p>
+                <div class="form-row">
+                  <label for="reset-email">Email <span class="required-mark">*</span></label>
+                  <input
+                    id="reset-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                  />
+                </div>
+                <button class="btn btn--gold" type="submit">Send reset link</button>
+                <button type="button" class="text-button" id="back-to-login">Back to log in</button>
+              </form>
+            </div>
+
+            <p class="form-status" id="auth-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark brand-mark--small" aria-hidden="true">
+            <span class="brand-letters">DN</span>
+          </span>
+          <span>
+            <strong>Digital Nexus</strong>
+            <small>Words. Strategy. Growth.</small>
+          </span>
+        </div>
+        <div class="footer-links">
+          <a href="writers.html">Writers</a>
+          <a href="join.html">For writers</a>
+          <a href="login.html" data-auth-link="login">Writer login</a>
+          <a href="dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
+          <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
+        </div>
+        <p>&copy; <span id="year">2026</span> Digital Nexus. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
