@@ -109,7 +109,10 @@
       const { data, error } = await client.auth.signUp({
         email,
         password,
-        options: { data: { name } },
+        options: {
+          data: { name },
+          emailRedirectTo: new URL("login.html", window.location.href).href,
+        },
       });
 
       if (error) return setMessage(status, friendlyAuthError(error), "is-error");
@@ -155,7 +158,7 @@
       if (!validEmail(email)) return setMessage(status, "Please enter a valid email address.", "is-error");
 
       setMessage(status, "Sending reset link…", "");
-      const redirectTo = window.location.href.split("#")[0].split("?")[0];
+      const redirectTo = new URL("login.html", window.location.href).href;
       const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
       if (error) return setMessage(status, friendlyAuthError(error), "is-error");
       setMessage(
